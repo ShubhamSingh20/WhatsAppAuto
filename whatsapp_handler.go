@@ -33,8 +33,8 @@ func sendMessage(wac *whatsapp.Conn, message string, contactNo string) {
 }
 
 func sendBulkMessage(wac *whatsapp.Conn, message []string, contactNo []string) {
+	waitGroup.Add(len(message))
 	for i := 0; i < len(message); i++ {
-		waitGroup.Add(1)
 		go sendMessage(wac, message[i], contactNo[i])
 	}
 	waitGroup.Wait()
@@ -42,7 +42,7 @@ func sendBulkMessage(wac *whatsapp.Conn, message []string, contactNo []string) {
 }
 
 func createNewConnection() (*whatsapp.Conn, error) {
-	wac, err := whatsapp.NewConn(5 * time.Second)
+	wac, err := whatsapp.NewConn(qrCodePeriod * time.Second)
 	if err != nil {
 		color.Red.Println("[-] Error creating connection: ", err)
 		return nil, err

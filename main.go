@@ -1,25 +1,27 @@
 package main
 
 import (
+	"bufio"
 	"os"
 	"time"
+
+	color "github.com/gookit/color"
 )
 
 // run the following commands before running the code
-
 // go get  "github.com/Baozisoftware/qrcode-terminal-go"
 // go get "github.com/Rhymen/go-whatsapp"
 // go get "github.com/gookit/color"
 
 const settlingPeriod = 3
 const messagePeriod = 1
+const qrCodePeriod = 10
 
 func main() {
-	contactNo := []string{"", "", ""} //phone number goes here
-	message := []string{              //messages go here
-		"This is an automated Message using Go routines",
-		"This is an automated Message using Go routines",
-		"This is an automated Message using Go routines",
+	contactNo := []string{"919978985418", "919913868460"} //phone number goes here
+	message := []string{                                  //messages go here
+		"This is an automated Message",
+		"This is an automated Message",
 	}
 	wac, err := createNewConnection()
 
@@ -30,5 +32,8 @@ func main() {
 	<-time.After(settlingPeriod * time.Second)
 	sendBulkMessage(wac, message, contactNo)
 	wac.Logout()
+
+	color.Yellow.Println("Press any key  to close ..")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
 
 }
