@@ -13,27 +13,37 @@ import (
 // go get "github.com/Rhymen/go-whatsapp"
 // go get "github.com/gookit/color"
 
+const INDCode = "91" //India country code
 const settlingPeriod = 3
 const messagePeriod = 1
 const qrCodePeriod = 10
 
+func pressKeyForExit() {
+	color.Yellow.Println("[*] Press enter to close ..")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+}
+
 func main() {
-	contactNo := []string{"919978985418", "919913868460"} //phone number goes here
-	message := []string{                                  //messages go here
-		"This is an automated Message",
-		"This is an automated Message",
+
+	messageList, err := loadCSV()
+	if err != nil {
+		pressKeyForExit()
 	}
+
+	contactNumber := getContactNumber(messageList)
+	message := getMessage(messageList)
+
 	wac, err := createNewConnection()
 
 	if err != nil {
+		pressKeyForExit()
 		os.Exit(1)
 	}
 
 	<-time.After(settlingPeriod * time.Second)
-	sendBulkMessage(wac, message, contactNo)
-	wac.Logout()
+	sendBulkMessage(wac, message, contactNumber)
 
-	color.Yellow.Println("Press any key  to close ..")
-	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	color.Blue.Println("[+] Logging out of Whatsapp")
+	wac.Logout()
 
 }

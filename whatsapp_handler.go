@@ -2,15 +2,12 @@ package main
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
 	whatsapp "github.com/Rhymen/go-whatsapp"
 	color "github.com/gookit/color"
 )
-
-var waitGroup = sync.WaitGroup{}
 
 func sendMessage(wac *whatsapp.Conn, message string, contactNo string) {
 
@@ -29,15 +26,12 @@ func sendMessage(wac *whatsapp.Conn, message string, contactNo string) {
 		color.Blue.Println("[+] Message Sent to ", contactNo, " with ID : "+magID)
 	}
 
-	waitGroup.Done()
 }
 
 func sendBulkMessage(wac *whatsapp.Conn, message []string, contactNo []string) {
-	waitGroup.Add(len(message))
 	for i := 0; i < len(message); i++ {
-		go sendMessage(wac, message[i], contactNo[i])
+		sendMessage(wac, message[i], contactNo[i])
 	}
-	waitGroup.Wait()
 
 }
 
