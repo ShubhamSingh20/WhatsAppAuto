@@ -1,0 +1,30 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func getContactNumber(m []Message) []string {
+	var contactNumber []string
+
+	for i := 1; i < len(m); i++ {
+		tempString := INDCode + strings.Replace(m[i].ContactNumber, " ", "", -1)
+		fmt.Println(tempString)
+		contactNumber = append(contactNumber, tempString)
+	}
+
+	return contactNumber
+}
+
+func getMessage(m []Message) []string {
+	var message []string
+	for i := 1; i < len(m); i++ {
+		tempString := m[i].StudentName + "\n" + "your timing for " +
+			m[i].Subject + " class is " + m[i].ClassTime
+
+		message = append(message, tempString)
+	}
+
+	return message
+}
