@@ -13,7 +13,8 @@ import (
 // go get "github.com/Rhymen/go-whatsapp"
 // go get "github.com/gookit/color"
 
-const INDCode = "91" //India country code
+//INDCode country code
+const INDCode = "91"
 const settlingPeriod = 3
 const messagePeriod = 1
 const qrCodePeriod = 10
