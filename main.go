@@ -14,10 +14,12 @@ import (
 // go get "github.com/gookit/color"
 
 //INDCode country code
-const INDCode = "91"
-const settlingPeriod = 3
-const messagePeriod = 1
-const qrCodePeriod = 10
+const (
+	INDCode        = "91"
+	settlingPeriod = 3
+	messagePeriod  = 1
+	qrCodePeriod   = 20
+)
 
 func pressKeyForExit() {
 	color.Yellow.Println("[*] Press enter to close ..")
@@ -45,6 +47,7 @@ func main() {
 	sendBulkMessage(wac, message, contactNumber)
 
 	color.Blue.Println("[+] Logging out of Whatsapp")
+	pressKeyForExit()
 	wac.Logout()
 
 }

@@ -2,15 +2,35 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os/exec"
+	"runtime"
 	"strings"
 )
+
+func openURLBrowser(url string) {
+	var err error
+
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func getContactNumber(m []Message) []string {
 	var contactNumber []string
 
 	for i := 1; i < len(m); i++ {
 		tempString := INDCode + strings.Replace(m[i].ContactNumber, " ", "", -1)
-		fmt.Println(tempString)
 		contactNumber = append(contactNumber, tempString)
 	}
 

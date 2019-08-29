@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
 	whatsapp "github.com/Rhymen/go-whatsapp"
 	color "github.com/gookit/color"
 )
@@ -29,6 +28,7 @@ func sendMessage(wac *whatsapp.Conn, message string, contactNo string) {
 }
 
 func sendBulkMessage(wac *whatsapp.Conn, message []string, contactNo []string) {
+
 	for i := 0; i < len(message); i++ {
 		sendMessage(wac, message[i], contactNo[i])
 	}
@@ -56,8 +56,9 @@ func oneTimeLogin(wac *whatsapp.Conn) error {
 	qr := make(chan string)
 
 	go func() {
-		terminal := qrcodeTerminal.New()
-		terminal.Get(<-qr).Print()
+		qrcodeFilePath := saveCurrentQrCode(<-qr)
+		fmt.Println(qrcodeFilePath)
+		openURLBrowser(qrcodeFilePath)
 	}()
 
 	_, err := wac.Login(qr)

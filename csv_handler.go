@@ -51,7 +51,7 @@ func loadCSV() ([]Message, error) {
 			return nil, errors.New("File Not Found")
 		}
 
-		if len(line[3]) != 0 {
+		if len(line[3]) != 0 { //Don't load the row if the schedule/Time column is empty
 			message = append(message, Message{
 				StudentName:   line[0],
 				StudentCode:   line[1],
