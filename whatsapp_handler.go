@@ -20,9 +20,9 @@ func sendMessage(wac *whatsapp.Conn, message string, contactNo string) {
 	magID, err := wac.Send(msg)
 
 	if err != nil {
-		color.Red.Println("[-] Error sending message to ", contactNo, " error => ", err)
+		color.BgBlue.Println("[-] Error sending message to ", contactNo, " error => ", err)
 	} else {
-		color.Blue.Println("[+] Message Sent to ", contactNo, " with ID : "+magID)
+		color.BgBlue.Println("[+] Message Sent to ", contactNo, " with ID : "+magID)
 	}
 
 }
@@ -38,13 +38,13 @@ func sendBulkMessage(wac *whatsapp.Conn, message []string, contactNo []string) {
 func createNewConnection() (*whatsapp.Conn, error) {
 	wac, err := whatsapp.NewConn(qrCodePeriod * time.Second)
 	if err != nil {
-		color.Red.Println("[-] Error creating connection: ", err)
+		color.Error.Println("[-] Error creating connection: ", err)
 		return nil, err
 	}
 
 	err = oneTimeLogin(wac)
 	if err != nil {
-		color.Red.Println("[-] Error creating connection: ", err)
+		color.Danger.Println("[-] Error creating connection: ", err)
 		return nil, err
 	}
 
@@ -57,7 +57,7 @@ func oneTimeLogin(wac *whatsapp.Conn) error {
 
 	go func() {
 		qrcodeFilePath := saveCurrentQrCode(<-qr)
-		color.Blue.Println("[+] QrCode Saved as ", qrcodeFilePath)
+		color.BgLightBlue.Println("[+] QrCode Saved as ", qrcodeFilePath)
 		openURLInBrowser(qrcodeFilePath)
 	}()
 

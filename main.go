@@ -15,19 +15,20 @@ import (
 
 //INDCode country code
 const (
-	INDCode        = "91"
-	settlingPeriod = 3
-	messagePeriod  = 1
-	qrCodePeriod   = 20
+	INDCode          = "91"
+	settlingPeriod   = 3
+	messagePeriod    = 1
+	qrCodePeriod     = 20
+	contactNumberLen = 10
 )
 
 func pressKeyToContinue() {
-	color.Yellow.Println("[*] Press enter to continue ..")
+	color.BgYellow.Println("[*] Press enter to continue ..")
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
 }
 
 func main() {
-	color.Blue.Println("[+] You will be prompted with a qrcode that " +
+	color.BgLightGreen.Println("[+] You will be prompted with a qrcode that " +
 		"you have to scan from your phone ...")
 
 	pressKeyToContinue()
@@ -35,6 +36,7 @@ func main() {
 	messageList, err := loadCSV()
 	if err != nil {
 		pressKeyToContinue()
+		os.Exit(1)
 	}
 
 	contactNumber := getContactNumber(messageList)
@@ -50,7 +52,7 @@ func main() {
 	<-time.After(settlingPeriod * time.Second)
 	sendBulkMessage(wac, message, contactNumber)
 
-	color.Blue.Println("[+] Logging out of Whatsapp")
+	color.BgBlue.Println("[+] Logging out of Whatsapp")
 	pressKeyToContinue()
 	wac.Logout()
 

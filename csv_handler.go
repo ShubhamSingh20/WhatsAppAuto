@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"strconv"
 
 	color "github.com/gookit/color"
 )
@@ -37,6 +38,11 @@ func verifyColumns(columnRow *Message) bool {
 	return correctColumnRowMessage == *columnRow
 }
 
+func isContactNumber(s string) bool {
+	_, err := strconv.ParseFloat(s, 64)
+	return err == nil && len(s) == contactNumberLen
+}
+
 func loadCSV() ([]Message, error) {
 	csvFile, _ := os.Open(csvFilename)
 	reader := csv.NewReader(bufio.NewReader(csvFile))
@@ -52,13 +58,19 @@ func loadCSV() ([]Message, error) {
 		}
 
 		if len(line[3]) != 0 { //Don't load the row if the schedule/Time column is empty
-			message = append(message, Message{
-				StudentName:   line[0],
-				StudentCode:   line[1],
-				Subject:       line[2],
-				ClassTime:     line[3],
-				ContactNumber: line[4],
-			})
+			if !isContactNumber(line[4]) && line[4] != correctColumnRowMessage.ContactNumber {
+				color.Danger.Println("[-] ", line[4], " is not a valid contact number"+
+					" should only contain numbers and no country code, the length should be 10 digit")
+			} else {
+				message = append(message, Message{
+					StudentName:   line[0],
+					StudentCode:   line[1],
+					Subject:       line[2],
+					ClassTime:     line[3],
+					ContactNumber: line[4],
+				})
+			}
+
 		}
 
 	}

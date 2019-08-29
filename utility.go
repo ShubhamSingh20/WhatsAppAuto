@@ -23,7 +23,7 @@ func openURLInBrowser(url string) {
 		err = fmt.Errorf("unsupported platform")
 	}
 	if err != nil {
-		color.Red.Println("[-] Error occured while opening file")
+		color.Danger.Println("[-] Error occured while opening file")
 	}
 
 }
