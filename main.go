@@ -21,16 +21,20 @@ const (
 	qrCodePeriod   = 20
 )
 
-func pressKeyForExit() {
-	color.Yellow.Println("[*] Press enter to close ..")
+func pressKeyToContinue() {
+	color.Yellow.Println("[*] Press enter to continue ..")
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
 }
 
 func main() {
+	color.Blue.Println("[+] You will be prompted with a qrcode that " +
+		"you have to scan from your phone ...")
+
+	pressKeyToContinue()
 
 	messageList, err := loadCSV()
 	if err != nil {
-		pressKeyForExit()
+		pressKeyToContinue()
 	}
 
 	contactNumber := getContactNumber(messageList)
@@ -39,7 +43,7 @@ func main() {
 	wac, err := createNewConnection()
 
 	if err != nil {
-		pressKeyForExit()
+		pressKeyToContinue()
 		os.Exit(1)
 	}
 
@@ -47,7 +51,7 @@ func main() {
 	sendBulkMessage(wac, message, contactNumber)
 
 	color.Blue.Println("[+] Logging out of Whatsapp")
-	pressKeyForExit()
+	pressKeyToContinue()
 	wac.Logout()
 
 }
