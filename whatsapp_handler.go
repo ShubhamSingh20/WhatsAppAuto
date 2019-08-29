@@ -6,6 +6,7 @@ import (
 
 	whatsapp "github.com/Rhymen/go-whatsapp"
 	color "github.com/gookit/color"
+	browser "github.com/pkg/browser"
 )
 
 func sendMessage(wac *whatsapp.Conn, message string, contactNo string) {
@@ -57,8 +58,8 @@ func oneTimeLogin(wac *whatsapp.Conn) error {
 
 	go func() {
 		qrcodeFilePath := saveCurrentQrCode(<-qr)
-		fmt.Println(qrcodeFilePath)
-		openURLBrowser(qrcodeFilePath)
+		color.Blue.Println("[+] QrCode Saved as ", qrcodeFilePath)
+		browser.OpenURL(qrcodeFilePath)
 	}()
 
 	_, err := wac.Login(qr)
