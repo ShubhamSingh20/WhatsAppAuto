@@ -43,6 +43,7 @@ func main() {
 	message := getMessage(messageList)
 
 	wac, err := createNewConnection()
+	defer wac.Logout()
 
 	if err != nil {
 		pressKeyToContinue()
@@ -53,7 +54,7 @@ func main() {
 	sendBulkMessage(wac, message, contactNumber)
 
 	color.BgBlue.Println("[+] Logging out of Whatsapp")
+
 	pressKeyToContinue()
-	wac.Logout()
 
 }

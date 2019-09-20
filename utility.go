@@ -38,12 +38,18 @@ func getContactNumber(m []Message) []string {
 	return contactNumber
 }
 
+func stringToBold(tempStr string) string {
+	//fmt.Println(fmt.Sprintf("%+q", tempStr))
+	return tempStr
+}
+
 func getMessage(m []Message) []string {
 	var message []string
 	for i := 1; i < len(m); i++ {
 		tempString := m[i].StudentName + "\n" + "your timing for " +
 			m[i].Subject + " class is " + m[i].ClassTime
 
+		tempString = stringToBold(tempString)
 		message = append(message, tempString)
 	}
 

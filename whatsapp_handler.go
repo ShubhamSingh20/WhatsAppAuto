@@ -8,6 +8,9 @@ import (
 	color "github.com/gookit/color"
 )
 
+//bold the string..
+//https://askubuntu.com/questions/528928/how-to-do-underline-bold-italic-strikethrough-color-background-and-size-i
+
 func sendMessage(wac *whatsapp.Conn, message string, contactNo string) {
 
 	msg := whatsapp.TextMessage{
@@ -57,7 +60,7 @@ func oneTimeLogin(wac *whatsapp.Conn) error {
 
 	go func() {
 		qrcodeFilePath := saveCurrentQrCode(<-qr)
-		color.BgLightBlue.Println("[+] QrCode Saved as ", qrcodeFilePath)
+		color.BgMagenta.Println("[+] QrCode Saved as ", qrcodeFilePath)
 		openURLInBrowser(qrcodeFilePath)
 	}()
 

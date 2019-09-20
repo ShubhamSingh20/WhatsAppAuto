@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"strconv"
+	"strings"
 
 	color "github.com/gookit/color"
 )
@@ -58,17 +59,21 @@ func loadCSV() ([]Message, error) {
 		}
 
 		if len(line[3]) != 0 { //Don't load the row if the schedule/Time column is empty
-			if !isContactNumber(line[4]) && line[4] != correctColumnRowMessage.ContactNumber {
-				color.Danger.Println("[-] ", line[4], " is not a valid contact number"+
-					" should only contain numbers and no country code, the length should be 10 digit")
-			} else {
-				message = append(message, Message{
-					StudentName:   line[0],
-					StudentCode:   line[1],
-					Subject:       line[2],
-					ClassTime:     line[3],
-					ContactNumber: line[4],
-				})
+			tempContactNumberList := strings.Fields(line[4])
+
+			for _, contactNumber := range tempContactNumberList {
+				if !isContactNumber(contactNumber) && contactNumber != correctColumnRowMessage.ContactNumber {
+					color.Danger.Println("[-] ", contactNumber, " is not a valid contact number"+
+						" should only contain numbers and no country code, the length should be 10 digit")
+				} else {
+					message = append(message, Message{
+						StudentName:   line[0],
+						StudentCode:   line[1],
+						Subject:       line[2],
+						ClassTime:     line[3],
+						ContactNumber: contactNumber,
+					})
+				}
 			}
 
 		}
