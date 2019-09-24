@@ -41,7 +41,6 @@ func main() {
 
 	contactNumber := getContactNumber(messageList)
 	message := getMessage(messageList)
-
 	wac, err := createNewConnection()
 	defer wac.Logout()
 
